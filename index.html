@@ -1,87 +1,55 @@
 <!doctype html>
 <html lang="bn">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#073b8f">
-  <meta name="description" content="প্রজ্ঞা কোচিং সেন্টার — শিক্ষা, শৃঙ্খলা, সাফল্য">
-  <meta name="mobile-web-app-capable" content="yes">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f3f8f">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="প্রজ্ঞা">
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>প্রজ্ঞা কোচিং সেন্টার</title>
+  <link rel="manifest" href="./manifest.json">
   <style>
-    :root{font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#102334;background:#f4f8fc}
-    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
-    #shell{position:fixed;inset:0;background:#f4f8fc}
-    #appFrame{width:100%;height:100%;border:0;display:block;background:#fff}
-    #loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#fff;transition:opacity .25s ease}
-    #loading.hide{opacity:0;pointer-events:none}
-    .loading-card{text-align:center;padding:24px}.loading-logo{width:110px;height:110px;object-fit:contain;border-radius:24px;margin-bottom:14px}
-    .loading-title{font-weight:800;font-size:22px;color:#073b8f}.loading-sub{margin-top:5px;color:#607486}
-    .spinner{width:34px;height:34px;margin:18px auto 0;border:4px solid #dfe8f2;border-top-color:#073b8f;border-radius:50%;animation:spin .8s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    #installBtn{position:fixed;right:14px;bottom:14px;z-index:25;display:none;border:0;border-radius:999px;padding:11px 16px;background:#073b8f;color:#fff;font-weight:700;box-shadow:0 8px 24px #0002}
-    #offline{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:24;display:none;background:#102334;color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;box-shadow:0 6px 20px #0003}
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+    }
+    #appFrame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+    }
   </style>
 </head>
 <body>
-  <main id="shell">
-    <iframe id="appFrame" title="প্রজ্ঞা কোচিং সেন্টার" allow="clipboard-read; clipboard-write; camera; microphone; geolocation"></iframe>
-  </main>
-
-  <section id="loading" aria-live="polite">
-    <div class="loading-card">
-      <img class="loading-logo" src="./icons/icon-192.png" alt="প্রজ্ঞা কোচিং সেন্টার">
-      <div class="loading-title">প্রজ্ঞা কোচিং সেন্টার</div>
-      <div class="loading-sub">শিক্ষা, শৃঙ্খলা, সাফল্য</div>
-      <div class="spinner"></div>
-    </div>
-  </section>
-
-  <button id="installBtn" type="button">📲 অ্যাপ ইনস্টল করুন</button>
-  <div id="offline">ইন্টারনেট সংযোগ নেই</div>
+  <iframe
+    id="appFrame"
+    title="প্রজ্ঞা কোচিং সেন্টার"
+    src="https://script.google.com/macros/s/AKfycbwlOfoBi1u4h_mpkbTJXCWbE6bTU8xJwIXyyAr95Pcfh_XGK3jRjdUe9ub6iq_5GvrRZg/exec?pwa_cache_bust=20261009_v2"
+    allow="clipboard-read; clipboard-write"
+    loading="eager">
+  </iframe>
 
   <script>
-    const APP_URL = 'https://script.google.com/macros/s/AKfycbwlOfoBi1u4h_mpkbTJXCWbE6bTU8xJwIXyyAr95Pcfh_XGK3jRjdUe9ub6iq_5GvrRZg/exec';
-    const frame = document.getElementById('appFrame');
-    const loading = document.getElementById('loading');
-    const installBtn = document.getElementById('installBtn');
-    const offline = document.getElementById('offline');
-
-    frame.src = APP_URL;
-    frame.addEventListener('load', () => setTimeout(() => loading.classList.add('hide'), 250), {once:true});
-
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (event) => {
-      event.preventDefault();
-      deferredPrompt = event;
-      installBtn.style.display = 'block';
-    });
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      installBtn.style.display = 'none';
-    });
-    window.addEventListener('appinstalled', () => {
-      installBtn.style.display = 'none';
-      deferredPrompt = null;
-    });
-
-    function connectionState(){ offline.style.display = navigator.onLine ? 'none' : 'block'; }
-    window.addEventListener('online', connectionState);
-    window.addEventListener('offline', connectionState);
-    connectionState();
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js', {scope:'./'})
-          .catch(err => console.warn('PWA service worker registration failed:', err));
+    // Force the PWA shell/service worker to check for a new version.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", async () => {
+        try {
+          const reg = await navigator.serviceWorker.register("./service-worker.js", {
+            updateViaCache: "none"
+          });
+          await reg.update();
+        } catch (err) {
+          console.warn("PWA service worker update failed:", err);
+        }
       });
     }
   </script>
