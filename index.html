@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="bn">
 <head>
@@ -6,51 +7,125 @@
   <meta name="theme-color" content="#1f3f8f">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+
   <title>প্রজ্ঞা কোচিং সেন্টার</title>
   <link rel="manifest" href="./manifest.json">
+
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       width: 100%;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
+      font-family: sans-serif;
       background: #fff;
+      color: #1f3f8f;
     }
-    #appFrame {
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .launch {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 18px;
+      border-radius: 22px;
+      background: #1f3f8f;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 0 0 10px;
+    }
+
+    p {
+      color: #606b80;
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0 0 24px;
+    }
+
+    .open-app {
       display: block;
       width: 100%;
-      height: 100%;
-      height: 100dvh;
-      border: 0;
-      margin: 0;
-      padding: 0;
-      background: #fff;
+      padding: 15px 20px;
+      background: #1f3f8f;
+      color: white;
+      text-decoration: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #7b8495;
     }
   </style>
 </head>
+
 <body>
-  <iframe
-    id="appFrame"
-    title="প্রজ্ঞা কোচিং সেন্টার"
-    src="https://script.google.com/macros/s/AKfycbx2wb7ob5-SeSp488I6xXbZTj3fRWUoSAaTZ9_UdakkWf9FdhJL6R-N7Rz0LeDrdOQa/exec"
-    allow="clipboard-read; clipboard-write"
-    loading="eager">
-  </iframe>
+  <main class="launch">
+    <div class="logo" aria-hidden="true">প</div>
+
+    <h1>প্রজ্ঞা কোচিং সেন্টার</h1>
+
+    <p>
+      আপনার শিক্ষার ড্যাশবোর্ড, পরীক্ষার ফলাফল
+      ও প্রয়োজনীয় তথ্য দেখতে অ্যাপটি খুলুন।
+    </p>
+
+    <a
+      class="open-app"
+      href="https://script.google.com/macros/s/AKfycbx2wb7ob5-SeSp488I6xXbZTj3fRWUoSAaTZ9_UdakkWf9FdhJL6R-N7Rz0LeDrdOQa/exec"
+      target="_self"
+      rel="noopener">
+      অ্যাপ চালু করুন
+    </a>
+
+    <div class="note">
+      Google Apps Script-এর মাধ্যমে পরিচালিত
+    </div>
+  </main>
+
   <script>
-    // Force the PWA shell/service worker to check for a new version.
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {
         try {
-          const reg = await navigator.serviceWorker.register("./service-worker.js", {
-            updateViaCache: "none"
-          });
+          const reg = await navigator.serviceWorker.register(
+            "./service-worker.js",
+            { updateViaCache: "none" }
+          );
+
           await reg.update();
         } catch (err) {
-          console.warn("PWA service worker update failed:", err);
+          console.warn("Service Worker registration failed:", err);
         }
       });
     }
   </script>
 </body>
 </html>
+```
